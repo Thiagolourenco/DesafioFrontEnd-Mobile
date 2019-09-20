@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import {Text, View, Image, TouchableOpacity, FlatList} from 'react-native';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
+import ListActions from '../../store/ducks/list';
 import {
   Container,
   List,
@@ -12,34 +15,18 @@ import {
   Input,
   ButtonAdicionar,
   ButtonText,
+  DateP,
 } from './style';
 
 import ArrowRight from '../../assets/img/right-arrow.png';
 import Add from '../../assets/img/add.png';
-import Modal from '../../components/modal';
-import CloseModal from '../../assets/img/close.png';
-
-import api from '../../services/api';
 
 class Main extends Component {
-  state = {
-    visible: false,
-    list: [],
-  };
-
   async componentDidMount() {
-    const response = await api.get('customers');
+    const {getListRequest} = this.props;
 
-    this.setState({list: response.data});
+    getListRequest();
   }
-
-  onOpenModal = () => {
-    this.setState({visible: true});
-  };
-
-  closeModal = () => {
-    this.setState({visible: false});
-  };
 
   handleUser = id => {
     const {navigation} = this.props;
@@ -47,13 +34,20 @@ class Main extends Component {
     navigation.navigate('InfoUser', {id});
   };
 
+  handleAddUser = async () => {
+    const {navigation} = this.props;
+
+    navigation.navigate('AddUser');
+  };
+
   render() {
-    const {visible, list} = this.state;
+    const {list} = this.props;
 
     return (
       <Container>
         <FlatList
-          data={list.data}
+          style={{flex: 1}}
+          data={list.data.data}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({item}) => (
             <List onPress={() => this.handleUser(item.id)} key={item.id}>
@@ -66,34 +60,22 @@ class Main extends Component {
           )}
         />
 
-        <ButtonAdd onPress={this.onOpenModal}>
+        <ButtonAdd onPress={this.handleAddUser}>
           <Image source={Add} />
         </ButtonAdd>
-
-        <Modal visible={visible}>
-          <TouchableOpacity
-            style={{alignSelf: 'flex-end'}}
-            onPress={this.closeModal}>
-            <Image source={CloseModal} />
-          </TouchableOpacity>
-          <TituloAdd>ADICIONAR CLIENTE</TituloAdd>
-
-          <Image />
-          <Input placeholder="Nome" placeholderTextColor="#000" />
-          <Input
-            placeholder="CPF"
-            placeholderTextColor="#000"
-            keyboardType={'numeric'}
-          />
-          <Input placeholder="Data de Nascimento" placeholderTextColor="#000" />
-
-          <ButtonAdicionar>
-            <ButtonText>ADICIONAR</ButtonText>
-          </ButtonAdicionar>
-        </Modal>
       </Container>
     );
   }
 }
 
-export default Main;
+const mapStateToProps = state => ({
+  list: state.list,
+});
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(ListActions, dispatch);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Main);

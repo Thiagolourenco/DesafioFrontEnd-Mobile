@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import DatePicker from 'react-native-datepicker';
 
 export const Container = styled.View`
   flex: 1;
@@ -49,7 +50,8 @@ export const ButtonAdd = styled.TouchableOpacity.attrs({
   justify-content: center;
   align-items: center;
   align-self: flex-end;
-  margin-top: 350px;
+  margin-bottom: 10px;
+  /* margin-top: 350px;  */
   margin-right: 20px;
 `;
 
@@ -57,40 +59,3 @@ export const ButtonAdd = styled.TouchableOpacity.attrs({
  *
  * Estilos Modal
  */
-
-export const TituloAdd = styled.Text`
-  font-size: 20px;
-  font-weight: bold;
-  text-align: center;
-  color: #fff;
-  margin-bottom: 20px;
-`;
-
-export const Input = styled.TextInput`
-  height: 51px;
-  width: 320px;
-  background-color: rgba(255, 255, 255, 0.85);
-  color: #000;
-  padding: 8px;
-  border-radius: 15px;
-  font-size: 18px;
-  margin-bottom: 15px;
-`;
-
-export const ButtonAdicionar = styled.TouchableOpacity.attrs({
-  activeOpacity: 0.7,
-})`
-  height: 50px;
-  width: 157px;
-  border-radius: 20px;
-  justify-content: center;
-  align-items: center;
-  background-color: #3867d6;
-  margin-top: 35px;
-`;
-
-export const ButtonText = styled.Text`
-  font-size: 16px;
-  color: #fff;
-  font-weight: bold;
-`;
