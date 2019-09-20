@@ -15,7 +15,6 @@ export const List = styled.TouchableOpacity.attrs({
   background-color: rgba(255, 255, 255, 0.9);
   border-radius: 15px;
   margin-top: 25px;
-  /* margin-bottom: 25px; */
   flex-direction: row;
 `;
 
@@ -46,16 +45,10 @@ export const ButtonAdd = styled.TouchableOpacity.attrs({
   height: 77px;
   width: 77px;
   border-radius: 38.5;
-  /* position: absolute; */
   justify-content: center;
   align-items: center;
   align-self: flex-end;
+  margin-top: 10px;
   margin-bottom: 10px;
-  /* margin-top: 350px;  */
   margin-right: 20px;
 `;
-
-/**
- *
- * Estilos Modal
- */

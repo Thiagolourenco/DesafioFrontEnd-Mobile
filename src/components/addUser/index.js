@@ -1,13 +1,9 @@
 import React, {Component} from 'react';
-import {
-  KeyboardAvoidingView,
-  TouchableOpacity,
-  Image,
-  View,
-} from 'react-native';
+import {ActivityIndicator} from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
+import api from '../../services/api';
 import ListActions from '../../store/ducks/list';
 import {
   Container,
@@ -25,26 +21,38 @@ class AddUser extends Component {
     name: '',
     cpf: '',
     birthdate: '',
+    loading: false,
   };
 
+  /**
+   * Adiciona cliente e seus respectivos dados
+   */
+
   handleAddUser = async () => {
-    const {createUserRequest, navigation} = this.props;
+    this.setState({
+      loading: true,
+    });
+
+    const {navigation, createUserRequest} = this.props;
     const {name, cpf, birthdate} = this.state;
 
     createUserRequest(name, cpf, birthdate);
+    // await api.post('customers', {name, cpf, birthdate});
 
     setTimeout(() => {
+      this.setState({
+        loading: false,
+      });
       navigation.navigate('Main');
     }, 5000);
   };
 
   render() {
-    const {name, cpf, birthdate} = this.state;
+    const {name, cpf, birthdate, loading} = this.state;
     return (
       <Container behavior={Platform.OS === 'ios' ? 'padding' : null}>
         <Content>
           <TituloAdd>ADICIONAR CLIENTE</TituloAdd>
-          <Image />
           <Input
             placeholder="Nome"
             placeholderTextColor="#000"
@@ -66,7 +74,8 @@ class AddUser extends Component {
           />
 
           <ButtonAdicionar onPress={this.handleAddUser}>
-            <ButtonText>ADICIONAR</ButtonText>
+            {loading && <ActivityIndicator size="small" color="#fff" />}
+            {!loading && <ButtonText>ADICIONAR</ButtonText>}
           </ButtonAdicionar>
         </Content>
       </Container>

@@ -1,12 +1,16 @@
-import React from 'react';
+import React, {Fragment} from 'react';
+import {Provider} from 'react-redux';
+import {Toast} from 'react-native-redux-toast';
 
 import Routes from './routes';
-import {Provider} from 'react-redux';
 import store from './store';
 
 const App = () => (
   <Provider store={store}>
-    <Routes />
+    <Fragment>
+      <Toast />
+      <Routes />
+    </Fragment>
   </Provider>
 );
 

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, View, Image, TouchableOpacity, FlatList} from 'react-native';
+import {View, Image, FlatList} from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
@@ -11,11 +11,6 @@ import {
   DateOfBirth,
   ImageArrowRight,
   ButtonAdd,
-  TituloAdd,
-  Input,
-  ButtonAdicionar,
-  ButtonText,
-  DateP,
 } from './style';
 
 import ArrowRight from '../../assets/img/right-arrow.png';

@@ -1,11 +1,5 @@
 import React, {Component} from 'react';
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  ActivityIndicatorBase,
-} from 'react-native';
+import {View, TouchableOpacity, Image, ActivityIndicator} from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
@@ -31,13 +25,15 @@ class InfoUser extends Component {
     cpf: '',
     birthdate: '',
     loading: false,
+    loadingUp: false,
   };
 
+  /**
+   * Carrega os dados do cliente, através do id
+   */
   async componentDidMount() {
     const {navigation} = this.props;
     const id = navigation.getParam('id');
-
-    // getListIdRequest
 
     const response = await api.get(`customers/${id}`);
 
@@ -48,36 +44,52 @@ class InfoUser extends Component {
     });
   }
 
+  /**
+   * Delete o cliente, atráves do ID
+   */
   handleDelete = async id => {
     const {navigation} = this.props;
 
     this.setState({
       loading: true,
     });
+
     await api.delete(`customers/${id}`);
 
-    this.setState({
-      loading: false,
-    });
-
-    navigation.navigate('Main');
+    setTimeout(() => {
+      this.setState({
+        loading: false,
+      });
+      navigation.navigate('Main');
+    }, 2000);
   };
 
+  /**
+   * Atualiza os Dados do cliente
+   */
   handleUpdate = async id => {
-    const {name, cpf, birthdate} = this.state;
-
-    const users = await api.put(`customers/${id}`, {name, cpf, birthdate});
-
+    const {name, cpf, birthdate, loadingUp} = this.state;
+    const {updateUserRequest} = this.props;
     this.setState({
-      user: users.data,
+      loadingUp: true,
     });
 
-    this.props.navigation.navigate('Main');
+    updateUserRequest(id, name, cpf, birthdate);
+    // const users = await api.put(`customers/${id}`, {name, cpf, birthdate});
+
+    setTimeout(() => {
+      this.setState({
+        // user: users.data,
+        loadingUp: false,
+      });
+
+      this.props.navigation.navigate('Main');
+    }, 2000);
   };
 
   render() {
-    const {navigation} = this.props;
-    const {name, cpf, birthdate, loading} = this.state;
+    const {navigation, list} = this.props;
+    const {name, cpf, birthdate, loading, loadingUp} = this.state;
     const id = navigation.getParam('id');
 
     return (
@@ -114,10 +126,12 @@ class InfoUser extends Component {
         </View>
         <GpButton>
           <ButtonUpdate onPress={() => this.handleUpdate(id)}>
-            <TextButton>ATUALIZAR</TextButton>
+            {loadingUp && <ActivityIndicator size="small" color="#fff" />}
+            {!loadingUp && <TextButton>ATUALIZAR</TextButton>}
           </ButtonUpdate>
           <ButtonRemove onPress={() => this.handleDelete(id)}>
-            <TextButton>REMOVER</TextButton>
+            {loading && <ActivityIndicator size="small" color="#fff" />}
+            {!loading && <TextButton>REMOVER</TextButton>}
           </ButtonRemove>
         </GpButton>
       </Container>
