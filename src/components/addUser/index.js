@@ -1,5 +1,10 @@
 import React, {Component} from 'react';
-import {ActivityIndicator} from 'react-native';
+import {
+  ActivityIndicator,
+  DatePickerAndroid,
+  TouchableOpacity,
+  Text,
+} from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
@@ -12,18 +17,48 @@ import {
   Input,
   ButtonAdicionar,
   ButtonText,
+  InputDate,
+  InputDateText,
 } from './style';
-
+import DateInput from '../dateInput';
 import ArrowBack from '../../assets/img/left-arrow.png';
 
 class AddUser extends Component {
   state = {
     name: '',
     cpf: '',
-    birthdate: '',
+    date: new Date(),
+    dateText: 'Date de Nascimento',
     loading: false,
   };
 
+  showDatePicker = async options => {
+    try {
+      const {action, year, month, day} = await DatePickerAndroid.open({
+        mode: 'spinner',
+      });
+
+      if (action !== DatePickerAndroid.dismissedAction) {
+        let date = new Date(year, month, day);
+        let newDate = {};
+
+        newDate['date'] = date;
+        newDate['dateText'] = date.toLocaleDateString('en-US');
+        this.setState(newDate);
+      }
+    } catch ({code, message}) {
+      alert(code, message);
+    }
+  };
+  // componentDidMount() {
+  //   const date = new Date().getDate();
+  //   const month = new Date().getMonth();
+  //   const year = new Date().getFullYear();
+
+  //   this.setState({
+  //     date: year + '-' + month + '-' + date,
+  //   });
+  // }
   /**
    * Adiciona cliente e seus respectivos dados
    */
@@ -34,9 +69,9 @@ class AddUser extends Component {
     });
 
     const {navigation, createUserRequest} = this.props;
-    const {name, cpf, birthdate} = this.state;
-
-    createUserRequest(name, cpf, birthdate);
+    const {name, cpf, date} = this.state;
+    // alert(date);
+    createUserRequest(name, cpf, date);
     // await api.post('customers', {name, cpf, birthdate});
 
     setTimeout(() => {
@@ -48,7 +83,7 @@ class AddUser extends Component {
   };
 
   render() {
-    const {name, cpf, birthdate, loading} = this.state;
+    const {name, cpf, birthdate, loading, date, dateText} = this.state;
     return (
       <Container behavior={Platform.OS === 'ios' ? 'padding' : null}>
         <Content>
@@ -66,12 +101,10 @@ class AddUser extends Component {
             keyboardType={'numeric'}
             onChangeText={text => this.setState({cpf: text})}
           />
-          <Input
-            placeholder="Data de Nascimento"
-            value={birthdate}
-            placeholderTextColor="#000"
-            onChangeText={text => this.setState({birthdate: text})}
-          />
+
+          <InputDate onPress={() => this.showDatePicker({date})}>
+            <InputDateText>{dateText}</InputDateText>
+          </InputDate>
 
           <ButtonAdicionar onPress={this.handleAddUser}>
             {loading && <ActivityIndicator size="small" color="#fff" />}

@@ -52,7 +52,7 @@ export function* getListId({id}) {
 
 export function* updateUser({id, name, cpf, birthdate}) {
   try {
-    const response = yield call(api.put, `customers/${id}`, {
+    yield call(api.put, `customers/${id}`, {
       name,
       cpf,
       birthdate,
@@ -67,3 +67,15 @@ export function* updateUser({id, name, cpf, birthdate}) {
 /**
  * Deletar Usuário
  */
+
+export function* deleteUser({id}) {
+  try {
+    yield call(api.delete, `customers/${id}`);
+
+    yield put(
+      ToastActionsCreators.displayWarning('Usuário Removido com sucesso'),
+    );
+  } catch (err) {
+    yield put(ToastActionsCreators.displayError('Ocorreu um error nas /'));
+  }
+}

@@ -48,14 +48,14 @@ class InfoUser extends Component {
    * Delete o cliente, atráves do ID
    */
   handleDelete = async id => {
-    const {navigation} = this.props;
+    const {navigation, deleteUserRequest} = this.props;
 
     this.setState({
       loading: true,
     });
 
     await api.delete(`customers/${id}`);
-
+    // deleteUserRequest(id);
     setTimeout(() => {
       this.setState({
         loading: false,
@@ -130,8 +130,11 @@ class InfoUser extends Component {
             {!loadingUp && <TextButton>ATUALIZAR</TextButton>}
           </ButtonUpdate>
           <ButtonRemove onPress={() => this.handleDelete(id)}>
-            {loading && <ActivityIndicator size="small" color="#fff" />}
-            {!loading && <TextButton>REMOVER</TextButton>}
+            {loading ? (
+              <ActivityIndicator size="small" color="#fff" />
+            ) : (
+              <TextButton>REMOVER</TextButton>
+            )}
           </ButtonRemove>
         </GpButton>
       </Container>
