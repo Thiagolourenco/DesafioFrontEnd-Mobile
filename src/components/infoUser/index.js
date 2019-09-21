@@ -1,5 +1,11 @@
 import React, {Component} from 'react';
-import {View, TouchableOpacity, Image, ActivityIndicator} from 'react-native';
+import {
+  View,
+  TouchableOpacity,
+  Image,
+  ActivityIndicator,
+  DatePickerAndroid,
+} from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
@@ -15,6 +21,8 @@ import {
   ButtonUpdate,
   ButtonRemove,
   TextButton,
+  InputDate,
+  InputDateText,
 } from './style';
 import ArrowBack from '../../assets/img/left-arrow.png';
 
@@ -23,11 +31,30 @@ class InfoUser extends Component {
     user: [],
     name: '',
     cpf: '',
+    date: new Date(),
     birthdate: '',
     loading: false,
     loadingUp: false,
   };
 
+  showDatePicker = async () => {
+    try {
+      const {action, year, month, day} = await DatePickerAndroid.open({
+        mode: 'spinner',
+      });
+
+      if (action !== DatePickerAndroid.dismissedAction) {
+        let date = new Date(year, month, day);
+        let newDate = {};
+
+        newDate['date'] = date;
+        newDate['birthdate'] = date.toLocaleDateString('en-US');
+        this.setState(newDate);
+      }
+    } catch ({code, message}) {
+      alert(code, message);
+    }
+  };
   /**
    * Carrega os dados do cliente, através do id
    */
@@ -68,13 +95,13 @@ class InfoUser extends Component {
    * Atualiza os Dados do cliente
    */
   handleUpdate = async id => {
-    const {name, cpf, birthdate, loadingUp} = this.state;
+    const {name, cpf, date, loadingUp} = this.state;
     const {updateUserRequest} = this.props;
     this.setState({
       loadingUp: true,
     });
 
-    updateUserRequest(id, name, cpf, birthdate);
+    updateUserRequest(id, name, cpf, date);
     // const users = await api.put(`customers/${id}`, {name, cpf, birthdate});
 
     setTimeout(() => {
@@ -89,7 +116,7 @@ class InfoUser extends Component {
 
   render() {
     const {navigation, list} = this.props;
-    const {name, cpf, birthdate, loading, loadingUp} = this.state;
+    const {name, cpf, birthdate, loading, loadingUp, date} = this.state;
     const id = navigation.getParam('id');
 
     return (
@@ -119,10 +146,10 @@ class InfoUser extends Component {
         </View>
         <View>
           <TextIn>Data de Nascimento</TextIn>
-          <Input
-            value={birthdate}
-            onChangeText={text => this.setState({birthdate: text})}
-          />
+
+          <InputDate onPress={() => this.showDatePicker({date})}>
+            <InputDateText>{birthdate}</InputDateText>
+          </InputDate>
         </View>
         <GpButton>
           <ButtonUpdate onPress={() => this.handleUpdate(id)}>

@@ -60,7 +60,9 @@ export function* updateUser({id, name, cpf, birthdate}) {
 
     yield put(ToastActionsCreators.displayInfo('Cliente alterado com sucesso'));
   } catch (err) {
-    yield put(ToastActionsCreators.displayError('Ocorreu um error nas /'));
+    yield put(
+      ToastActionsCreators.displayError('Ocorreu um error nas credencias'),
+    );
   }
 }
 
