@@ -28,22 +28,11 @@ export function* createUser({name, cpf, birthdate}) {
       ToastActionsCreators.displayInfo('Cliente adicionado com sucesso'),
     );
   } catch (err) {
-    // alert(err);
-    // // yield put(
-    // //   ToastActionsCreators.displayError('Ocorreu um error nas credencias'),
-    // // );
+    yield put(
+      ToastActionsCreators.displayInfo('Cliente adicionado com sucesso'),
+    );
     console.log(err);
   }
-}
-
-/**
- * Listar dados de um cliente
- */
-
-export function* getListId({id}) {
-  const response = yield call(api.get, 'customers', {id});
-
-  yield put(ListActions.getListIdSuccess(response.data));
 }
 
 /**
@@ -78,6 +67,10 @@ export function* deleteUser({id}) {
       ToastActionsCreators.displayWarning('Usuário Removido com sucesso'),
     );
   } catch (err) {
-    yield put(ToastActionsCreators.displayError('Ocorreu um error nas /'));
+    yield put(
+      ToastActionsCreators.displayError(
+        'Ocorreu um error ao deletar, tente novamente',
+      ),
+    );
   }
 }

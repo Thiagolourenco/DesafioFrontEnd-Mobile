@@ -19,16 +19,23 @@ import Add from '../../assets/img/add.png';
 class Main extends Component {
   async componentDidMount() {
     const {getListRequest} = this.props;
-
     getListRequest();
   }
 
+  /**
+   * Realiza a navegação para a tela InfoUser: Informações do cliente
+   * onde poderá atualizar e remover o cliente
+   */
   handleUser = id => {
     const {navigation} = this.props;
 
     navigation.navigate('InfoUser', {id});
   };
 
+  /**
+   * Realiza a navegação para a tela AddUser: Onde vai adicionar o novo
+   * cliente
+   */
   handleAddUser = async () => {
     const {navigation} = this.props;
 
@@ -54,7 +61,6 @@ class Main extends Component {
             </List>
           )}
         />
-
         <ButtonAdd onPress={this.handleAddUser}>
           <Image source={Add} />
         </ButtonAdd>

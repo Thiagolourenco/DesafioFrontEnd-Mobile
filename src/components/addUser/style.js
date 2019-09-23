@@ -5,7 +5,7 @@ export const Container = styled.KeyboardAvoidingView`
   justify-content: center;
 `;
 export const Content = styled.View`
-  background-color: rgba(53, 79, 171, 0.9);
+  background-color: #3867d6;
   flex: 1;
   align-items: center;
   justify-content: center;
@@ -47,7 +47,7 @@ export const ButtonAdicionar = styled.TouchableOpacity.attrs({
   border-radius: 20px;
   justify-content: center;
   align-items: center;
-  background-color: #3867d6;
+  background-color: rgba(53, 70, 171, 0.94);
   margin-top: 35px;
 `;
 

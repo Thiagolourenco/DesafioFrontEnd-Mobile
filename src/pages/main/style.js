@@ -1,5 +1,4 @@
 import styled from 'styled-components/native';
-import DatePicker from 'react-native-datepicker';
 
 export const Container = styled.View`
   flex: 1;

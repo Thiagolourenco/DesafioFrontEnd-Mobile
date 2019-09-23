@@ -16,6 +16,16 @@ export const Title = styled.Text`
   margin-top: 20px;
 `;
 
+export const ButtonBack = styled.TouchableOpacity`
+  justify-content: center;
+  margin-left: 20;
+`;
+
+export const Header = styled.View`
+  flex-direction: row;
+  align-self: stretch;
+`;
+
 export const TextIn = styled.Text`
   font-size: 18px;
   font-weight: bold;
