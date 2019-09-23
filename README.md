@@ -2,8 +2,8 @@
 
 SOBRE
 
-    Uma aplicação mobile desenvolvido em React Native, para solução de um desafio respectivo a uma vaga de trabalho. 7
-    O principal objetivo do app é fazer uma listagem de Cliente cadastrados, adicionar novos cliente,
+    Uma aplicação mobile desenvolvido em React Native, para solução de um desafio respectivo a uma vaga de 
+    trabalho. O principal objetivo do app é fazer uma listagem de Cliente cadastrados, adicionar novos cliente,
     como também atualizar dados como remover dados do cliente.
 
 Instruções
