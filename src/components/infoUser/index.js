@@ -27,7 +27,7 @@ class InfoUser extends Component {
     user: [],
     name: '',
     cpf: '',
-    date: new Date(),
+    date: '',
     birthdate: '',
     loading: false,
     loadingUp: false,
@@ -69,6 +69,7 @@ class InfoUser extends Component {
     this.setState({
       name: response.data.name,
       cpf: response.data.cpf,
+      date: response.data.birthdate,
       birthdate: response.data.birthdate,
     });
   }
